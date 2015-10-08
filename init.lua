@@ -50,41 +50,31 @@ end
 
 
 local function USEGgun(meta,user,pointed_thing)
-		if meta.mode==8 and pointed_thing.type=="object" and pointed_thing.ref then		-- remove Terget
-					local keys = user:get_player_control()
-					local player_name=user:get_player_name()
-					local len=getLength(diplazer_UserTele)
-					local is_removed=0
-					if len==0 then len=1 end
-					for i=1,len,1 do
-						if meta.mode .."?".. player_name==diplazer_UserTele[i] and (not diplazer_Tele[i]==false) then 
-							if pointed_thing.ref==diplazer_Tele[i] then
-							if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=1,}) end
-								diplazer_Tele[i]=false is_removed=1
-								GGunInUse=GGunInUse-1
-							end
-						end	
-					end
+	if meta.mode ~= 8
+	or pointed_thing.type ~= "object"
+	or not pointed_thing.ref then
+		return
+	end		-- remove Terget
+	local keys = user:get_player_control()
+	local player_name=user:get_player_name()
+	local len=getLength(diplazer_UserTele)
+	local is_removed=0
+	if len==0 then len=1 end
+	for i=1,len,1 do
+		if meta.mode .."?".. player_name==diplazer_UserTele[i] and (not diplazer_Tele[i]==false) then 
+			if pointed_thing.ref==diplazer_Tele[i] then
+			if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=1,}) end
+				diplazer_Tele[i]=false is_removed=1
+				GGunInUse=GGunInUse-1
+			end
+		end	
+	end
 
-					if keys.RMB then
-						local pos = minetest.get_pointed_thing_position(pointed_thing, above)
-						local dir = minetest.dir_to_facedir(user:get_look_dir())
-						local x=0
-						local z=0
-						if dir== 1 then
-							x=30
-						elseif dir==2 then
-							z=-30
-						elseif dir==3 then
-							x=-30
-						elseif dir == 0 then
-							z=30
-						end
-						pointed_thing.ref:setvelocity({x=x,y=10,z=z})-- end of keys.RMB
-					return 0
-					end
-					if is_removed==1 then return 0 end
-		end
+	if keys.RMB then
+		pointed_thing.ref:setvelocity(vector.multiply(user:get_look_dir(), 30))-- end of keys.RMB
+		return 0
+	end
+	if is_removed==1 then return 0 end
 end
 
 
@@ -140,43 +130,44 @@ end
 
 
 minetest.register_globalstep(function(dtime)
-if GGunInUse>0 then 
-	GGunTime = GGunTime + 6
-		if GGunTime >= 10 then
-			GGunTime = 0
-			for i, player in pairs(minetest.get_connected_players()) do
-				if haveGGun(player)==true then
-					local user = player
-					local player_name = player:get_player_name()
-					local pos = player:getpos()
-					local len=getLength(diplazer_UserTele)
-					for i=1,len,1 do
-						if "8?".. player_name==diplazer_UserTele[i] and (not diplazer_Tele[i]==false) then
-							local userdir=minetest.dir_to_facedir(user:get_look_dir())
-							if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=0}) end
-							if userdir == 1 then
-									pos.x=pos.x+4
-							elseif userdir==2 then
-								pos.z=pos.z-4
-							elseif userdir==3 then
-								pos.x=pos.x-4
-							elseif userdir == 0 then
-								pos.z=pos.z+4
-							end
-							diplazer_Tele[i]:setvelocity({x=0,y=1,z=0})
-							diplazer_Tele[i]:moveto({ x=pos.x, y=pos.y+2, z=pos.z },false)
-						end
+	if GGunInUse < 1 then
+		return
+	end
+	for i, player in pairs(minetest.get_connected_players()) do
+		if haveGGun(player)==true then
+			local player_name = player:get_player_name()
+			local pos = player:getpos()
+			local len=getLength(diplazer_UserTele)
+			for i=1,len,1 do
+				if "8?".. player_name == diplazer_UserTele[i]
+				and diplazer_Tele[i] ~= false then
+					if diplazer_Tele[i]:is_player()==true then
+						diplazer_Tele[i]:set_physics_override({gravity=0})
 					end
-				else
-					local len=getLength(diplazer_UserTele)
-					local player_name = player:get_player_name()
-					for i=1,len,1 do
-						if "8?".. player_name==diplazer_UserTele[i] and (not diplazer_Tele[i]==false) then 
-							if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=1}) end
-							diplazer_Tele[i]=false
-							GGunInUse=GGunInUse-1
-						end
+					pos.y = pos.y+1.625
+					pos = vector.add(pos, vector.multiply(player:get_look_dir(), 4))
+					local cpos = diplazer_Tele[i]:getpos()
+					if not cpos then
+						return
 					end
+					local vel = vector.subtract(pos, cpos)
+					--vel.y = vel.y+1
+					vel = vector.multiply(vel, 0.03/dtime)
+					--diplazer_Tele[i]:setacceleration(vel)
+					diplazer_Tele[i]:setacceleration(vector.zero)
+					diplazer_Tele[i]:setvelocity(vel)
+					diplazer_Tele[i]:moveto(pos)
+				end
+			end
+		else
+			local len=getLength(diplazer_UserTele)
+			local player_name = player:get_player_name()
+			for i=1,len,1 do
+				if "8?".. player_name==diplazer_UserTele[i]
+				and diplazer_Tele[i] ~= false then 
+					if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=1}) end
+					diplazer_Tele[i]=false
+					GGunInUse=GGunInUse-1
 				end
 			end
 		end
