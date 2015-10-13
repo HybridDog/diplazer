@@ -597,7 +597,7 @@ local function diplazer_dig(pos,player,drops,admin)
 	end
 	end
 
-local function diplazer_getdir (player)
+function diplazer_getdir (player)
 	local dir=player:get_look_dir()
 	if math.abs(dir.x)>math.abs(dir.z) then 
 		if dir.x>0 then return 0 end
