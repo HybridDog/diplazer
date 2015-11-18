@@ -27,41 +27,41 @@ end
 
 
 function diplazer_T(name,msg,user,admin,box)
-if msg==-1 then
-minetest.chat_send_player(name, "/dihelp ... Use while sneaking / hold shift and left-click / use the switcherbox")
-minetest.chat_send_player(name, "Set a [stack] of blocks [left of the tool], the [amount of stack] sets how many to place/dig")
-elseif msg==-2 then
-minetest.chat_send_player(name, "Use while point a player or mob or item/stack to select, then point a block to teleport it.")
-return 0
-elseif msg==-3 then
-minetest.chat_send_player(name, "This node is protected")
-return 0
-elseif msg==-4 then
-minetest.chat_send_player(name, "Error: stack to right must be big as or bigger than stack to left (L<=R)")
-return 0
-else
+	if msg==-1 then
+		minetest.chat_send_player(name, "/dihelp ... Use while sneaking / hold shift and left-click / use the switcherbox")
+		minetest.chat_send_player(name, "Set a [stack] of blocks [left of the tool], the [amount of stack] sets how many to place/dig")
+	elseif msg==-2 then
+		minetest.chat_send_player(name, "Use while point a player or mob or item/stack to select, then point a block to teleport it.")
+		return 0
+	elseif msg==-3 then
+		minetest.chat_send_player(name, "This node is protected")
+		return 0
+	elseif msg==-4 then
+		minetest.chat_send_player(name, "Error: stack to right must be big as or bigger than stack to left (L<=R)")
+		return 0
+	else
 
-local Mode={}
-Mode[1]="Place front"
-Mode[2]="Dig front"
-Mode[3]="Place up"
-Mode[4]="Dig down"
-Mode[5]="Dig 3x3 nodes"
-Mode[6]="Teleport"
-Mode[7]="Teleport objects"
-Mode[8]="Gravity gun (click to pickup, click it again to drop, right+click to throw it away jump+click to drop single block/stack)"
-Mode[9]="Replace front: stack to left replace with stack to right"
-Mode[10]="AutoSwitch using from all stacks in hotbar from left to right [place dipalzer to right for max use]"
-Mode[11]="Massive Place: platform NxN nodes"
-Mode[12]="Massive Dig: platform NxN nodes"
-Mode[13]="Massive Place: cube NxNxN nodes (be extremely careful!)"
-Mode[14]="Massive Dig: cube NxNxN nodes (be extremely careful!)"
-minetest.chat_send_player(name,"Diplazer Mode" .. msg .. ": ".. Mode[msg])
-end
+		local Mode={}
+		Mode[1]="Place front"
+		Mode[2]="Dig front"
+		Mode[3]="Place up"
+		Mode[4]="Dig down"
+		Mode[5]="Dig 3x3 nodes"
+		Mode[6]="Teleport"
+		Mode[7]="Teleport objects"
+		Mode[8]="Gravity gun (click to pickup, click it again to drop, right+click to throw it away jump+click to drop single block/stack)"
+		Mode[9]="Replace front: stack to left replace with stack to right"
+		Mode[10]="AutoSwitch using from all stacks in hotbar from left to right [place dipalzer to right for max use]"
+		Mode[11]="Massive Place: platform NxN nodes"
+		Mode[12]="Massive Dig: platform NxN nodes"
+		Mode[13]="Massive Place: cube NxNxN nodes (be extremely careful!)"
+		Mode[14]="Massive Dig: cube NxNxN nodes (be extremely careful!)"
+		minetest.chat_send_player(name,"Diplazer Mode" .. msg .. ": ".. Mode[msg])
+	end
 end
 
 local function diplazer_getLength(a)
-if a==nil then return 0 end
+	if a==nil then return 0 end
 	local count = 0
 	for _ in pairs(a) do count = count + 1 end
 	return count
