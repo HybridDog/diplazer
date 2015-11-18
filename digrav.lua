@@ -2,7 +2,7 @@ minetest.register_tool("diplazer:grav", {
 	description = "Gravity manipuler",
 	range = 0,
 	inventory_image = "diplazer_grav.png",
-	on_use = function diplazer_ongravuse(itemstack, user, pointed_thing)
+	on_use = function(itemstack, user, pointed_thing)
 		local grav=user:get_physics_override().gravity
 
 		if grav==diplazer_restore_gravity_to then
