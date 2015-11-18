@@ -522,7 +522,7 @@ minetest.register_globalstep(function(dtime)
 	if GGunInUse <= 0 then
 		return
 	end
-	GGunTime = GGunTime + 1
+	GGunTime = GGunTime + dtime
 	if GGunTime < diplazer_UpdateGGun then
 		return
 	end
@@ -554,9 +554,36 @@ minetest.register_globalstep(function(dtime)
 						return false
 					end
 
-					diplazer_Tele[i]:moveto({x=pos.x+(udir.x*xzpos), y=pos.y+1.5+(udir.y*4), z=pos.z+(udir.z*xzpos)},false)
+					--[[
+					local wantedpos = {x=pos.x+(udir.x*xzpos), y=pos.y+1.5+(udir.y*4), z=pos.z+(udir.z*xzpos)}
+					diplazer_Tele[i]:moveto(wantedpos,false)
 					diplazer_Tele[i]:setvelocity({x=0,y=1,z=0})
-					diplazer_Tele[i]:setyaw(player:get_look_yaw()+(math.pi*1.5))
+					diplazer_Tele[i]:setyaw(player:get_look_yaw()+(math.pi*1.5))--]]
+
+					--[[
+					x(t) = at²+bt+c
+					x'(t) = 2at+b
+					x''(t) = 2a
+
+					x(0) = c = pos.x
+					x'(0) = b = vel.x
+
+					x(t) = wantedpos.x = at²+vel.xt+pos.x
+					a = (wantedpos.x-pos.x-vel.xt)/t²
+					]]
+
+					local p = diplazer_Tele[i]:getpos()
+					local wantedpos = vector.divide(vector.add({x=pos.x+(udir.x*xzpos), y=pos.y+1.5+(udir.y*4), z=pos.z+(udir.z*xzpos)}, p), 2)
+
+					local t = diplazer_UpdateGGun+0.1
+					local acc = {}
+					local vel = diplazer_Tele[i]:getvelocity()
+					for c,v in pairs(wantedpos) do
+						acc[c] =(v-p[c]-vel[c]*t)/(t*t)
+					end
+
+					diplazer_Tele[i]:setacceleration(acc)
+					diplazer_Tele[i]:setyaw(player:get_look_yaw()+math.pi*1.5)
 
 				end
 			end
