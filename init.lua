@@ -1,4 +1,4 @@
-diplazer_vesrion=16
+diplazer_vesrion=17
 
 diplazer_Tele={}
 diplazer_UserTele={}
@@ -28,11 +28,17 @@ dofile(minetest.get_modpath("diplazer") .. "/settings.lua")
 dofile(minetest.get_modpath("diplazer") .. "/base.lua")
 dofile(minetest.get_modpath("diplazer") .. "/dipbox.lua")
 dofile(minetest.get_modpath("diplazer") .. "/di3dt.lua")
+dofile(minetest.get_modpath("diplazer") .. "/3d2shield.lua")
 
 if diplazer_Enable_gravity==true then
 dofile(minetest.get_modpath("diplazer") .. "/digrav.lua")
 end
 
+
+
+minetest.register_alias("di_adpick", "diplazer:adpick")
+minetest.register_alias("di_pick", "diplazer:pick")
+minetest.register_alias("di_s", "diplazer:armholder")
 minetest.register_alias("di_3dt", "diplazer:di3dt")
 minetest.register_alias("di_vac", "diplazer:vacuum")
 minetest.register_alias("di_grav", "diplazer:grav")
@@ -52,7 +58,3 @@ minetest.register_alias("di_lcomc", "diplazer:lazerblock_com")
 minetest.register_alias("di_lgun", "diplazer:lazerblock_gun")
 minetest.register_alias("di_lad", "diplazer:lazerblock_admin")
 minetest.register_alias("di_ladno", "diplazer:lazerblock_adminno")
-
-
-
-
