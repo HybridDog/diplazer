@@ -1,24 +1,33 @@
 
 
 local function diplazer_getAmount(player, mode,admin)
-	local Name=player:get_inventory():get_stack("main", player:get_wield_index()-1):get_name()
-	local is_node=(minetest.registered_nodes[Name] or Name == "air")
-	local stack_count=player:get_inventory():get_stack("main", player:get_wield_index()-1):get_count()
-	local Node= {name=Name}
-	if stack_count>diplazer_amount and admin==0 then stack_count=diplazer_amount
-	elseif stack_count>diplazer_amount*2 and admin==1 then stack_count=diplazer_amount*2
-	elseif stack_count>diplazer_com_amount and admin==-1 then stack_count=diplazer_com_amount
+	local item = player:get_inventory():get_stack("main", player:get_wield_index()-1)
+	local stack_count = item:get_count()
+	if stack_count>diplazer_amount
+	and admin==0 then
+		stack_count=diplazer_amount
+	elseif stack_count>diplazer_amount*2
+	and admin==1 then
+		stack_count=diplazer_amount*2
+	elseif stack_count>diplazer_com_amount
+	and admin==-1 then
+		stack_count=diplazer_com_amount
 	end
-	if (mode==13 or mode==14) then
+	if mode==13
+	or mode==14 then
 		return stack_count
 	end
-	if (mode==11 or mode==12) then
+	if mode==11
+	or mode==12 then
 		return stack_count
 	end
-	if (mode==2 or mode==4) then
+	if mode==2
+	or mode==4 then
 		return stack_count
 	end
-	if is_node and (mode==1 or mode==3 or mode==9 ) then
+
+	if minetest.registered_nodes[item:get_name()]
+	and (mode==1 or mode==3 or mode==9 ) then
 		return stack_count
 	else
 		return 0
@@ -88,19 +97,19 @@ minetest.register_chatcommand("di_1112", {
 	func = function(name, param)
 
 	if diplazer_Enable_warning_mode11_12==false then
-	minetest.chat_send_player(name, "The access is now always enabled")
-	return false
+		minetest.chat_send_player(name, "The access is now always enabled")
+		return false
 	end
 
-		for i=1,diplazer_getLength(diplazer_1112access),1 do
-			if name==diplazer_1112access[i] then
-				return true
-			end
+	for i=1,diplazer_getLength(diplazer_1112access),1 do
+		if name==diplazer_1112access[i] then
+			return true
 		end
-		minetest.chat_send_player(name, "Temporary access added until you changing mode")
-		table.insert(diplazer_1112access,name)
-		return true
-	end})
+	end
+	minetest.chat_send_player(name, "Temporary access added until you changing mode")
+	table.insert(diplazer_1112access,name)
+	return true
+end})
 
 minetest.register_chatcommand("di_dropall", {
 	params = "",
@@ -108,10 +117,10 @@ minetest.register_chatcommand("di_dropall", {
 	func = function(name, param)
 	if GGunInUse<0 then GGunInUse=0 end
 
-if minetest.check_player_privs(name, {diplazer_admin=true})==false then
-minetest.chat_send_player(name, "You need diplazer_admin priv to run this command")
-return 0
-end
+	if minetest.check_player_privs(name, {diplazer_admin=true})==false then
+		minetest.chat_send_player(name, "You need diplazer_admin priv to run this command")
+		return 0
+	end
 	local player_name=name
 	local len=diplazer_getLength(diplazer_Tele)
 	local is_using=0
@@ -128,10 +137,10 @@ end
 			GGunInUse=GGunInUse-1
 		end
 	end
-minetest.chat_send_player(name, "Diplazer: all targets are cleared")
-diplazer_UserTele={}
-diplazer_Tele={}
-GGunInUse=0
+	minetest.chat_send_player(name, "Diplazer: all targets are cleared")
+	diplazer_UserTele={}
+	diplazer_Tele={}
+	GGunInUse=0
 end})
 
 minetest.register_chatcommand("di_dropme", {
@@ -225,17 +234,17 @@ end
 
 
 local function diplazer_USEGgunIfObHitClear()
-diplazer_USEGgunIfObHit_obj.on=0
-diplazer_USEGgunIfObHit_obj.object=0
-diplazer_USEGgunIfObHit_obj.count=0
-diplazer_USEGgunIfObHit_obj.user=0
-diplazer_USEGgunIfObHit_obj.userdir=0
-diplazer_USEGgunIfObHit_obj.admin=0
+	diplazer_USEGgunIfObHit_obj.on=0
+	diplazer_USEGgunIfObHit_obj.object=0
+	diplazer_USEGgunIfObHit_obj.count=0
+	diplazer_USEGgunIfObHit_obj.user=0
+	diplazer_USEGgunIfObHit_obj.userdir=0
+	diplazer_USEGgunIfObHit_obj.admin=0
 end
 
 
 local function dpzrnd(a) -- round
-return math.floor(a+ 0.5)
+	return math.floor(a+ 0.5)
 end
 
 
@@ -247,8 +256,8 @@ local function diplazer_USEGgunIfObHit()
 	local pos = minetest.get_pointed_thing_position(diplazer_USEGgunIfObHit_obj.object,nil)
 
 	if pos==nil then
-	diplazer_USEGgunIfObHitClear()
-	return
+		diplazer_USEGgunIfObHitClear()
+		return
 	end
 
 	local us=diplazer_USEGgunIfObHit_obj.user:getpos()
@@ -334,56 +343,52 @@ end
 
 local function diplazer_USEGgun(meta,user,pointed_thing,admin)
 
-if pointed_thing==0 or pointed_thing==nil then
-for i=1,diplazer_getLength(diplazer_UserTele),1 do
-if diplazer_UserTele[i]==meta.mode .."?".. user:get_player_name() then diplazer_Tele[i]=false return false end
-end
-return false
+	if pointed_thing==0 or pointed_thing==nil then
+		for i=1,diplazer_getLength(diplazer_UserTele),1 do
+			if diplazer_UserTele[i]==meta.mode .."?".. user:get_player_name() then diplazer_Tele[i]=false return false end
+			end
+			return false
 
 
-end
-
-
-
-
+		end
 
 		if meta.mode==8 and pointed_thing.type=="object" and pointed_thing.ref then		-- remove Terget
-					local keys = user:get_player_control()
-					local player_name=user:get_player_name()
-					local len=diplazer_getLength(diplazer_UserTele)
-					local is_removed=0
-					if len==0 then len=1 end
+			local keys = user:get_player_control()
+			local player_name=user:get_player_name()
+			local len=diplazer_getLength(diplazer_UserTele)
+			local is_removed=0
+			if len==0 then len=1 end
 
-					for i=1,len,1 do
-						if meta.mode .."?".. player_name==diplazer_UserTele[i] and (not diplazer_Tele[i]==false) then
-							if pointed_thing.ref==diplazer_Tele[i] then
-								if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=diplazer_restore_gravity_to,}) end
-								if pointed_thing.ref:get_luaentity() and pointed_thing.ref:get_luaentity().name == "__builtin:item" and (not keys.RMB) and (not keys.jump) then
-									if diplazer_USEGgunStackToNode(pointed_thing)==0 then return false end
-								end
-								diplazer_Tele[i]=false
-								is_removed=1
-								minetest.sound_play("diplazer_grabnodedrop", {pos =user:getpos(), gain = 1.0, max_hear_distance = 3,})
-								GGunInUse=GGunInUse-1
-							end
+			for i=1,len,1 do
+				if meta.mode .."?".. player_name==diplazer_UserTele[i] and (not diplazer_Tele[i]==false) then
+					if pointed_thing.ref==diplazer_Tele[i] then
+						if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=diplazer_restore_gravity_to,}) end
+						if pointed_thing.ref:get_luaentity() and pointed_thing.ref:get_luaentity().name == "__builtin:item" and (not keys.RMB) and (not keys.jump) then
+							if diplazer_USEGgunStackToNode(pointed_thing)==0 then return false end
 						end
+						diplazer_Tele[i]=false
+						is_removed=1
+						minetest.sound_play("diplazer_grabnodedrop", {pos =user:getpos(), gain = 1.0, max_hear_distance = 3,})
+						GGunInUse=GGunInUse-1
 					end
+				end
+			end
 
-					if keys.RMB then
-						local pos = minetest.get_pointed_thing_position(pointed_thing)
-						local udir = user:get_look_dir()
-						pointed_thing.ref:setvelocity({x=udir.x*50, y=udir.y*50, z=udir.z*50})
-						minetest.sound_play("diplazer_grabnodesend", {pos =user:getpos(), gain = 1.0, max_hear_distance = 3,})
-						diplazer_USEGgunIfObHit_obj.object=pointed_thing
-						diplazer_USEGgunIfObHit_obj.userdir=udir
-						diplazer_USEGgunIfObHit_obj.user=user
-						diplazer_USEGgunIfObHit_obj.objectposs=pos
-						diplazer_USEGgunIfObHit_obj.admin=admin
-						diplazer_USEGgunIfObHit_obj.on=1
+			if keys.RMB then
+				local pos = minetest.get_pointed_thing_position(pointed_thing)
+				local udir = user:get_look_dir()
+				pointed_thing.ref:setvelocity({x=udir.x*50, y=udir.y*50, z=udir.z*50})
+				minetest.sound_play("diplazer_grabnodesend", {pos =user:getpos(), gain = 1.0, max_hear_distance = 3,})
+				diplazer_USEGgunIfObHit_obj.object=pointed_thing
+				diplazer_USEGgunIfObHit_obj.userdir=udir
+				diplazer_USEGgunIfObHit_obj.user=user
+				diplazer_USEGgunIfObHit_obj.objectposs=pos
+				diplazer_USEGgunIfObHit_obj.admin=admin
+				diplazer_USEGgunIfObHit_obj.on=1
 -- end of keys.RMB
-					return 0
-					end
-					if is_removed==1 then return 0 end
+			return 0
+			end
+			if is_removed==1 then return 0 end
 		end
 end
 
@@ -444,26 +449,24 @@ local function diplazer_haveGGun(player)
 	local inv = player:get_inventory()
 	local hotbar = inv:get_list("main")
 	for i = 1, 8 do
-		if hotbar[i]:get_name() == "diplazer:com8" or hotbar[i]:get_name() == "diplazer:gun8" or hotbar[i]:get_name() == "diplazer:admin8" or hotbar[i]:get_name() == "diplazer:adminno8" then
-			local meta = minetest.deserialize(hotbar[i]:get_metadata())
-
-		if hotbar[i]:get_name() == "diplazer:com8" then
-		local name=player:get_player_name()
-			for i=1,diplazer_getLength(diplazer_com_mode8_users),1 do
+		local itemname = hotbar[i]:get_name()
+		if itemname == "diplazer:com8" then
+			local name=player:get_player_name()
+			for i=1,diplazer_getLength(diplazer_com_mode8_users) do
 				if name==diplazer_com_mode8_users[i].name then
 					if diplazer_com_mode8_users[i].time>0 then
-					diplazer_com_mode8_users[i].time=diplazer_com_mode8_users[i].time-0.1
+						diplazer_com_mode8_users[i].time=diplazer_com_mode8_users[i].time-0.1
 					else
-					GGunInUse=GGunInUse-1
-					return false
+						GGunInUse=GGunInUse-1
+						return false
 					end
 				end
 			end
-		end
-
-
-
-				return true
+			return true
+		elseif itemname == "diplazer:gun8"
+		or itemname == "diplazer:admin8"
+		or itemname == "diplazer:adminno8" then
+			return true
 		end
 	end
 	return false
@@ -527,14 +530,19 @@ minetest.register_globalstep(function(dtime)
 		return
 	end
 	GGunTime = 0
-	for i, player in pairs(minetest.get_connected_players()) do
-		if diplazer_haveGGun(player)==true then
+	for _,player in pairs(minetest.get_connected_players()) do
+		local len = diplazer_getLength(diplazer_UserTele)
+		if diplazer_haveGGun(player) then
 			local player_name = player:get_player_name()
 			local pos = player:getpos()
-			local len=diplazer_getLength(diplazer_UserTele)
 			for i=1,len,1 do
-				if "8?".. player_name==diplazer_UserTele[i] and (not diplazer_Tele[i]==false) then
-					if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=0}) end
+				local obj = diplazer_Tele[i]
+				if obj
+				and "8?".. player_name==diplazer_UserTele[i] then
+					local is_player = obj:is_player()
+					if is_player then
+						obj:set_physics_override({gravity=0})
+					end
 					local udir = player:get_look_dir()
 
 					local xzpos=4
@@ -549,7 +557,8 @@ minetest.register_globalstep(function(dtime)
 					if tp2node==true then xzpos=2 end
 					if tp2node==true then xzpos=1 end
 					if tp2node==true then xzpos=-1 end--]]
-					if not diplazer_Tele[i]:getpos() then
+					local p = obj:getpos()
+					if not p then
 						diplazer_Tele[i]=false
 						return false
 					end
@@ -572,29 +581,35 @@ minetest.register_globalstep(function(dtime)
 					a = (wantedpos.x-pos.x-vel.xt)/t²
 					]]
 
-					local p = diplazer_Tele[i]:getpos()
 					local wantedpos = vector.divide(vector.add({x=pos.x+(udir.x*xzpos), y=pos.y+1.5+(udir.y*4), z=pos.z+(udir.z*xzpos)}, p), 2)
+					if is_player then
+						obj:setpos(wantedpos)
+					else
+						local t = diplazer_UpdateGGun+0.1
+						local acc = {}
+						local vel = obj:getvelocity()
+						for c,v in pairs(wantedpos) do
+							acc[c] =(v-p[c]-vel[c]*t)/(t*t)
+						end
 
-					local t = diplazer_UpdateGGun+0.1
-					local acc = {}
-					local vel = diplazer_Tele[i]:getvelocity()
-					for c,v in pairs(wantedpos) do
-						acc[c] =(v-p[c]-vel[c]*t)/(t*t)
+						obj:setacceleration(acc)
 					end
-
-					diplazer_Tele[i]:setacceleration(acc)
-					diplazer_Tele[i]:setyaw(player:get_look_yaw()+math.pi*1.5)
-
+					obj:setyaw(player:get_look_yaw()+math.pi*1.5)
 				end
 			end
 		else
-			local len=diplazer_getLength(diplazer_UserTele)
 			local player_name = player:get_player_name()
 			for i=1,len,1 do
-				if "8?".. player_name==diplazer_UserTele[i] and (not diplazer_Tele[i]==false) then
-					if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=diplazer_restore_gravity_to}) end
-					diplazer_Tele[i]=false
-					GGunInUse=GGunInUse-1
+				local obj = diplazer_Tele[i]
+				if obj
+				and "8?".. player_name == diplazer_UserTele[i] then
+					if obj:is_player() then
+						obj:set_physics_override({gravity=diplazer_restore_gravity_to})
+					else
+						obj:setacceleration({x=0, y=0, z=0})
+					end
+					diplazer_Tele[i] = false
+					GGunInUse = GGunInUse-1
 				end
 			end
 		end
