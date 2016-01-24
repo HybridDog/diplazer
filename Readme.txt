@@ -1,8 +1,3 @@
-
-
-Copyright (C) UjEdwin 2015
-
-Mod by UjEdwin
 See the version in the init.lua or type /dihelp in game
 
 Rename this folder to diplazer
@@ -11,7 +6,7 @@ More info: https://forum.minetest.net/viewtopic.php?f=9&t=12395
 
 Other info: type /dihelp in game
 
-type /di_dropme to drop you self from mode7 and mode8 (or with diplazer_admin priv /di_dropall)
+type /di_dropme to drop you self from mode7 and mode8 (or drop all with diplazer_admin priv /di_dropall)
 
 
 Diplazer is a kind of lasergun / fast placing / diging tool, and it can even teleport, object teleporter and gravitygun, and more!!
@@ -22,16 +17,16 @@ Dipalzer works with pipeworks:nodebreaker
 
 Diplazer works with pipeworks:nodebreaker (make smooth doors / traps and other)
 modes that are supported with nodebreakers
-:com & :gun womodes:1 2,4,5,12
-:admin & :adminno: 1 2 4 5 8 9 11 12
+:com & :gun modes:1 2,4,5,6,7,9,10,11,12,13,14
+:admin & :adminno: 1 2,4,5,6,7,8,9,10,11,12,13,14
 place a block front of the breaker before it can use the tool
 
-Change the amount in the init.lua file (diplazer_amount=15) admin have double
+Change the amount in the init.lua file (diplazer_amount=15) admin using double
 
-In place mode (1 & 3): In invetory: place stack with blocks / nodes to  left side of the tool , the tool will use all of same type of nodes from the inventory, then the stack to left.
-In dig mode (2 & 4): In invetory: place stack-amout to dig.
+In place mode (1,3,11,13): In invetory: place stack with blocks / nodes to  left side of the tool , the tool will use all of same type of nodes from the inventory, then the stack to left.
+In dig mode (2 & 4,12,15): In invetory: place stack-amout to dig.
 
-The common version: diplazer:com (di_com)
+The common version: diplazer:com (di_com) [com = common]
 Toogleable
 Limeted (toogleable) [craft with meseblock to reload]
 can place / dig 7 blocks
@@ -71,7 +66,7 @@ same as diplazer:admin
 don't keep stuff on dig, can destroy locked stuff / special nodes
 require diplazer_admin priv to use
 
-in mode: 1,3,11 you can use next mode if you hold right+left click instead of change
+in mode: 1,3,11,13 you can use next mode if you hold right+left click instead of change
 
 Mode1: Place front (can shoot lazer if no stack set)
 Mode2: Dig nodes front
@@ -83,8 +78,10 @@ Mode7: Teleport Objects
 Mode8: Gravity gun (click to pickup, click it again to drop, click+right to throw it away [dont work on players])
 Mode9: Replace: stack to left replace with stack to right
 Mode10: AutoSwitch: using from all stacks in hotbar from left to right [place dipalzer to right for max use]
-Mode11: Place platform nXn
-Mode12: Dig platform nXn
+Mode11: Massive place: platform NxN
+Mode12: Massive dig: platform NxN
+Mode13: Massive place: cube NxNxN
+Mode14: Massive dig: cube NxNxN
 
 Use mode8
 Use / left click		-		pick up something or a node
@@ -131,14 +128,48 @@ diplazer:vaccum / di_vac
 Just vaccum, at same time it prevents players to teleport to inside.
 The blocks are invisible, and have to place somethine on it, or dig with any diplazer to remove.
 
-Diplazer 3D Transfer
+3D Transfer
 diplazer:di3dt / di_3dt
 left click top copy, right to place your place.
 see Help-Controls.txt for more info
 
-You can easy toogle / functions in the init.lua
+Service Bot:
+This tool using 8 modes, only the owner can control it:
+Goto somthing  (then do then nothing)
+Attack object    (then do then nothing)
+Protect               (will folow the object and attacks every other object around it without you
+Place block:       using from your inventory [left side of the tool] (then do then nothing)
+Dig a block         [you will get the stuff] (then do then nothing)
+Keep digging:     [you will get the stuff] will dig any block it can find (same as the pointed)
+Folow                 will folow the selected object
+Destroy:             remove the bot
+[it will teleport to the target if its too faraway])
+
+The Flashlight:
+use to turn off or on in darknes, it also works in default water
+it turns of if you:
+are inside a block (not water)
+if you are in daylight
+and if you chnage its possition in the inventory
+
+
+The Portable chest:
+the title says all, put down the blue chest, put in stuff, pick up the chest, put it somewhere else, and you stuff are there.
+the chest cant save metadata / info from tools, that means it will be restored, but tool damage.
+
+You can easy toogle / functions and see all items in the init.lua
 
 Changes log:
+V18:
+Fixed	shadows from lazer
+Added:	portable chest (imported from pollution)
+Added:	flashlight (works in default water too)
+Fixed	1112access (/di_1112) removes acces when anyone leave
+Added:	mode13: Massive place NxNxN
+Added:	mode14: Massive dig NxNxN
+Added:	mode1: support from param2 (node rotation)
+Fixed:	mode8: players stuck in air (no gravity) happend when a player hold another player and selected a node
+Added:     servive bot
 V17:
 Added:	diplazer:chip
 Added:	diplazer:pick

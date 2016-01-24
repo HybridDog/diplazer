@@ -1,4 +1,4 @@
-diplazer_vesrion=17
+diplazer_vesrion=18
 
 diplazer_Tele={}
 diplazer_UserTele={}
@@ -29,6 +29,9 @@ dofile(minetest.get_modpath("diplazer") .. "/base.lua")
 dofile(minetest.get_modpath("diplazer") .. "/dipbox.lua")
 dofile(minetest.get_modpath("diplazer") .. "/di3dt.lua")
 dofile(minetest.get_modpath("diplazer") .. "/3d2shield.lua")
+dofile(minetest.get_modpath("diplazer") .. "/pchest.lua")
+dofile(minetest.get_modpath("diplazer") .. "/flashlight.lua")
+dofile(minetest.get_modpath("diplazer") .. "/serbot.lua")
 
 if diplazer_Enable_gravity==true then
 dofile(minetest.get_modpath("diplazer") .. "/digrav.lua")
@@ -36,6 +39,9 @@ end
 
 
 
+
+minetest.register_alias("di_sb", "diplazer:serbotcon")
+minetest.register_alias("di_chest", "diplazer:pchest")
 minetest.register_alias("di_adpick", "diplazer:adpick")
 minetest.register_alias("di_pick", "diplazer:pick")
 minetest.register_alias("di_s", "diplazer:armholder")
