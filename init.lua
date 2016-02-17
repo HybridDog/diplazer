@@ -1,4 +1,4 @@
-diplazer_vesrion=18
+diplazer_vesrion="19"
 
 diplazer_Tele={}
 diplazer_UserTele={}
@@ -21,9 +21,6 @@ GGunInUse=0
 
 if minetest.get_modpath("pipeworks") then diplazer_pipeworks=1 end
 
-
-
-
 dofile(minetest.get_modpath("diplazer") .. "/settings.lua")
 dofile(minetest.get_modpath("diplazer") .. "/base.lua")
 dofile(minetest.get_modpath("diplazer") .. "/dipbox.lua")
@@ -32,14 +29,15 @@ dofile(minetest.get_modpath("diplazer") .. "/3d2shield.lua")
 dofile(minetest.get_modpath("diplazer") .. "/pchest.lua")
 dofile(minetest.get_modpath("diplazer") .. "/flashlight.lua")
 dofile(minetest.get_modpath("diplazer") .. "/serbot.lua")
-
+dofile(minetest.get_modpath("diplazer") .. "/lighfix.lua")
+dofile(minetest.get_modpath("diplazer") .. "/invis.lua")
 if diplazer_Enable_gravity==true then
 dofile(minetest.get_modpath("diplazer") .. "/digrav.lua")
 end
 
-
-
-
+minetest.register_alias("di_in", "diplazer:in")
+minetest.register_alias("di_lightfix", "diplazer:lightfixer")
+minetest.register_alias("di_ch", "diplazer:chip")
 minetest.register_alias("di_sb", "diplazer:serbotcon")
 minetest.register_alias("di_chest", "diplazer:pchest")
 minetest.register_alias("di_adpick", "diplazer:adpick")
@@ -59,8 +57,8 @@ minetest.register_alias("di_orba", "diplazer:orba")
 minetest.register_alias("di_orbg", "diplazer:orbg")
 minetest.register_alias("di_orbc", "diplazer:orbc")
 minetest.register_alias("di_lcom", "diplazer:lazerblock_com")
-minetest.register_alias("di_lcomg", "diplazer:lazerblock_com")
-minetest.register_alias("di_lcomc", "diplazer:lazerblock_com")
+minetest.register_alias("di_lcomg", "diplazer:lazerblock_comg")
+minetest.register_alias("di_lcomc", "diplazer:lazerblock_comc")
 minetest.register_alias("di_lgun", "diplazer:lazerblock_gun")
 minetest.register_alias("di_lad", "diplazer:lazerblock_admin")
 minetest.register_alias("di_ladno", "diplazer:lazerblock_adminno")

@@ -37,6 +37,11 @@ minetest.register_globalstep(function(dtime)
 			local pos=diplazer_flashlight.users[i].player:getpos()
 			pos.y=pos.y+1.5
 			local n=minetest.get_node(pos).name
+			local light=minetest.get_node_light(pos)
+			if light==nil then
+				table.remove(diplazer_flashlight.users,i)
+				return false
+			end
 			if diplazer_flashlight.users[i].inside>10 or name==nil or name~="diplazer:flashlight" or minetest.get_node_light(pos)>12 then
 				table.remove(diplazer_flashlight.users,i)
 			elseif n=="air" or n=="diplazer:flht" then

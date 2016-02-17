@@ -119,10 +119,11 @@ end
 local diplazer_serbot=function(self, dtime)
 	self.timer=self.timer+dtime
 	self.timer2=self.timer2+dtime
-
 	if self.timer2>=0.2 then
 		self.timer2=0
-
+		if self.uname==nil or diplazer_disb[self.uname]==nil then
+			return self
+		end
 
 -- set status by controler
 		if diplazer_disb[self.uname].status~="" then
@@ -402,9 +403,10 @@ local diplazer_serbot=function(self, dtime)
 			end
 		end
 --place
+
 		if self.status_curr=="place" and minetest.is_protected(self.status_target3, self.uname)==false then
 			local stack=self.user:get_inventory():get_stack("main", self.user:get_wield_index()-1):get_name()
-			if stack~="" then
+			if minetest.registered_nodes[stack] then
 				minetest.set_node(self.status_target3, {name=stack})
 				self.user:get_inventory():remove_item("main",stack)
 				minetest.sound_play("default_place_node_hard", {pos = self.object:getpos(), gain = 1.1, max_hear_distance = 5,})
@@ -471,9 +473,16 @@ local diplazer_serbot=function(self, dtime)
 		for i, ob in pairs(minetest.get_objects_inside_radius(pos, self.distance)) do
 			if ((ob:is_player() and ob:get_player_name()~=self.uname) or (ob:get_luaentity() and ob:get_luaentity().team~=self.team and ob:get_luaentity().uname~=self.uname)) and not (ob:get_attach()) then
 				if diplazer_visiable(pos,ob) and ((not ob:get_luaentity()) or (ob:get_luaentity() and (not(self.status_curr=="attack" and ob:get_luaentity().name=="__builtin:item")))) then
-					if self.status_static=="protect" then
+					if self.status_static=="protect" and self.status_target3~=nil then
+
+						if self.status_target3:get_luaentity()==nil and self.status_target3:is_player()==nil then
+							return self
+						end
 						local op=ob:getpos()
 						local tp=self.status_target3:getpos()
+						if tp==nil then
+							return self
+						end
 						if not (op.x==tp.x and op.z==tp.z and ob:get_hp()==self.status_target3:get_hp()) then
 							self.status_target1=ob
 							self.status_curr="attack"

@@ -1,4 +1,6 @@
 
+
+if diplazer_Enable_pick then
 minetest.register_tool("diplazer:pick", {
 	description ="Diplazer pick",
 	range = 10,
@@ -15,15 +17,15 @@ minetest.register_tool("diplazer:pick", {
 			crumbly={times={[1]=0,[2]=0,[3]=0},uses=100,maxlevel=3},
 			snappy={times={[1]=0,[2]=0,[3]=0},uses=0,maxlevel=3},
 		},
-		damage_groups={fleshy=8},
-	},
+		damage_groups={fleshy=8},	},
 })
+end
 
 minetest.register_tool("diplazer:adpick", {
 	description ="Diplazer ad pick",
 	range = 15,
 	inventory_image = "diplazer_adpick.png",
-	groups = {not_in_creative_inventory = 1},
+	groups = {not_in_creative_inventory = diplazer_hide_stuff},
 	tool_capabilities = {
 		full_punch_interval = 0.20,
 		max_drop_level = 3,

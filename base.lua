@@ -1741,7 +1741,7 @@ minetest.register_tool("diplazer:gun", {
 	description = "Diplazer gun",
 	range = diplazer_amount,
 	inventory_image = "diplazer.png",
-	groups = {not_in_creative_inventory=1},
+	groups = {not_in_creative_inventory=diplazer_hide_stuff},
 	on_use = function(itemstack, user, pointed_thing)
 	diplazer_onuse(itemstack,user,pointed_thing,0,1)
 	return itemstack
@@ -1752,7 +1752,7 @@ minetest.register_tool("diplazer:admin", {
 	description = "Diplazer Admin",
 	range = diplazer_amount,
 	inventory_image = "diplazeradmin.png",
-	groups = {not_in_creative_inventory=1},
+	groups = {not_in_creative_inventory=diplazer_hide_stuff},
 	on_use = function(itemstack, user, pointed_thing)
 	diplazer_onuse(itemstack,user,pointed_thing,1,1)
 	return itemstack
@@ -1763,7 +1763,7 @@ minetest.register_tool("diplazer:adminno", {
 	description = "Diplazer Admin no drops",
 	range = diplazer_amount,
 	inventory_image = "diplazeradminno.png",
-	groups = {not_in_creative_inventory=1},
+	groups = {not_in_creative_inventory=diplazer_hide_stuff},
 	on_use = function(itemstack, user, pointed_thing)
 	diplazer_onuse(itemstack,user,pointed_thing,1,0)
 	return itemstack
@@ -1896,13 +1896,13 @@ minetest.register_tool("diplazer:orba", {
 	description = "Healing Admin Orb",
 	range = 0,
 	inventory_image = "diplazer_orba.png",
-	groups = {not_in_creative_inventory=1},
+	groups = {not_in_creative_inventory=diplazer_hide_stuff},
 })
 minetest.register_tool("diplazer:orbg", {
 	description = "Healing Moderator Orb",
 	range = 0,
 	inventory_image = "diplazer_orbg.png",
-	groups = {not_in_creative_inventory=1},
+	groups = {not_in_creative_inventory=diplazer_hide_stuff},
 })
 minetest.register_tool("diplazer:orbc", {
 	description = "Healing Orb",
