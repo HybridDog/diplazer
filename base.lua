@@ -345,51 +345,52 @@ local function diplazer_USEGgun(meta,user,pointed_thing,admin)
 
 	if pointed_thing==0 or pointed_thing==nil then
 		for i=1,diplazer_getLength(diplazer_UserTele),1 do
-			if diplazer_UserTele[i]==meta.mode .."?".. user:get_player_name() then diplazer_Tele[i]=false return false end
+			if diplazer_UserTele[i]==meta.mode .."?".. user:get_player_name() then
+				diplazer_Tele[i]=false
+				return false
 			end
-			return false
-
-
 		end
+		return false
+	end
 
-		if meta.mode==8 and pointed_thing.type=="object" and pointed_thing.ref then		-- remove Terget
-			local keys = user:get_player_control()
-			local player_name=user:get_player_name()
-			local len=diplazer_getLength(diplazer_UserTele)
-			local is_removed=0
-			if len==0 then len=1 end
+	if meta.mode==8 and pointed_thing.type=="object" and pointed_thing.ref then		-- remove Terget
+		local keys = user:get_player_control()
+		local player_name=user:get_player_name()
+		local len=diplazer_getLength(diplazer_UserTele)
+		local is_removed=0
+		if len==0 then len=1 end
 
-			for i=1,len,1 do
-				if meta.mode .."?".. player_name==diplazer_UserTele[i] and (not diplazer_Tele[i]==false) then
-					if pointed_thing.ref==diplazer_Tele[i] then
-						if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=diplazer_restore_gravity_to,}) end
-						if pointed_thing.ref:get_luaentity() and pointed_thing.ref:get_luaentity().name == "__builtin:item" and (not keys.RMB) and (not keys.jump) then
-							if diplazer_USEGgunStackToNode(pointed_thing)==0 then return false end
-						end
-						diplazer_Tele[i]=false
-						is_removed=1
-						minetest.sound_play("diplazer_grabnodedrop", {pos =user:getpos(), gain = 1.0, max_hear_distance = 3,})
-						GGunInUse=GGunInUse-1
+		for i=1,len,1 do
+			if meta.mode .."?".. player_name==diplazer_UserTele[i] and (not diplazer_Tele[i]==false) then
+				if pointed_thing.ref==diplazer_Tele[i] then
+					if diplazer_Tele[i]:is_player()==true then diplazer_Tele[i]:set_physics_override({gravity=diplazer_restore_gravity_to,}) end
+					if pointed_thing.ref:get_luaentity() and pointed_thing.ref:get_luaentity().name == "__builtin:item" and (not keys.RMB) and (not keys.jump) then
+						if diplazer_USEGgunStackToNode(pointed_thing)==0 then return false end
 					end
+					diplazer_Tele[i]=false
+					is_removed=1
+					minetest.sound_play("diplazer_grabnodedrop", {pos =user:getpos(), gain = 1.0, max_hear_distance = 3,})
+					GGunInUse=GGunInUse-1
 				end
 			end
+		end
 
-			if keys.RMB then
-				local pos = minetest.get_pointed_thing_position(pointed_thing)
-				local udir = user:get_look_dir()
-				pointed_thing.ref:setvelocity({x=udir.x*50, y=udir.y*50, z=udir.z*50})
-				minetest.sound_play("diplazer_grabnodesend", {pos =user:getpos(), gain = 1.0, max_hear_distance = 3,})
-				diplazer_USEGgunIfObHit_obj.object=pointed_thing
-				diplazer_USEGgunIfObHit_obj.userdir=udir
-				diplazer_USEGgunIfObHit_obj.user=user
-				diplazer_USEGgunIfObHit_obj.objectposs=pos
-				diplazer_USEGgunIfObHit_obj.admin=admin
-				diplazer_USEGgunIfObHit_obj.on=1
+		if keys.RMB then
+			local pos = minetest.get_pointed_thing_position(pointed_thing)
+			local udir = user:get_look_dir()
+			pointed_thing.ref:setvelocity(vector.multiply(udir, 50))
+			minetest.sound_play("diplazer_grabnodesend", {pos = vector.divide(vector.add(pos, user:getpos()), 2), max_hear_distance = 3,})
+			diplazer_USEGgunIfObHit_obj.object=pointed_thing
+			diplazer_USEGgunIfObHit_obj.userdir=udir
+			diplazer_USEGgunIfObHit_obj.user=user
+			diplazer_USEGgunIfObHit_obj.objectposs=pos
+			diplazer_USEGgunIfObHit_obj.admin=admin
+			diplazer_USEGgunIfObHit_obj.on=1
 -- end of keys.RMB
 			return 0
-			end
-			if is_removed==1 then return 0 end
 		end
+		if is_removed==1 then return 0 end
+	end
 end
 
 
