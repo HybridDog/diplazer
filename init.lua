@@ -1,4 +1,4 @@
-diplazer_vesrion="19"
+diplazer_vesrion="19.1"
 
 diplazer_Tele={}
 diplazer_UserTele={}

@@ -1,3 +1,8 @@
+License: CC BY-NC-SA
+Name: Diplazer
+Created by: UjEdwin
+Date: 2016-03-27
+
 See the version in the init.lua or type /dihelp in game
 
 Diplazer is a advanced build / digging tool, and it can even teleport, object teleporter and gravitygun, and more!
